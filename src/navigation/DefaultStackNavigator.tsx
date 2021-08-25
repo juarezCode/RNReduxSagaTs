@@ -4,14 +4,19 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
 import CharactersScreen from '../screens/CharactersScreen';
 import CharacterScreen from '../screens/CharacterScreen';
+import { DefaultStackParamList } from './navigation.types';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<DefaultStackParamList>();
 
 const DefaultStackNavigator = () => {
   return (
     <NavigationContainer theme={DefaultTheme}>
       <Stack.Navigator initialRouteName={'HomeScreenName'}>
-        <Stack.Screen name={'HomeScreenName'} component={HomeScreen} />
+        <Stack.Screen
+          name={'HomeScreenName'}
+          component={HomeScreen}
+          options={{ title: 'Home' }}
+        />
         <Stack.Screen
           name={'CharactersScreenName'}
           component={CharactersScreen}

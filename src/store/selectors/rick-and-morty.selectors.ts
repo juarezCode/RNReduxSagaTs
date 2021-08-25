@@ -1,9 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../reducers';
 
-const selectCharactersState = (state: RootState) => state.characters;
+export const selectCharactersState = (state: RootState) => state.characters;
 
-const selectCharacterState = (state: RootState) => state.character;
+export const selectCharacterState = (state: RootState) => state.character;
 
 export const selectCharacters = createSelector(
   selectCharactersState,

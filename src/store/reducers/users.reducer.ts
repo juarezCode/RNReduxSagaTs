@@ -26,6 +26,8 @@ export const usersReducer = createReducer<UsersState>(initialState, builder => {
     .addCase(getUsers, state => {
       state.loading = true;
       state.users = [];
+      state.todos = [];
+      state.error = null;
     })
     .addCase(getUsersSuccess, (state, { payload: { users, todos } }) => {
       state.loading = false;

@@ -25,6 +25,7 @@ export const charactersReducer = createReducer<CharactersState>(
       .addCase(getCharacters, state => {
         state.loading = true;
         state.characters = [];
+        state.error = null;
       })
       .addCase(getCharactersSuccess, (state, { payload }) => {
         state.loading = false;

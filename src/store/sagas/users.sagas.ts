@@ -18,9 +18,9 @@ import {
 import { selectUsers } from '../selectors/users.selectors';
 
 function* getUsersSaga(action: PayloadAction<number>) {
-  console.log('payload', action.payload); // get payload data
+  // console.log('payload', action.payload); // get payload data
   const users: ReturnType<typeof selectUsers> = yield select(selectUsers); // get State
-  console.log('users', users);
+  // console.log('users', users);
 
   // const users: CallReturnType<typeof getUsersAPI> = yield call(getUsersAPI);
   // const todos: CallReturnType<typeof getTodosAPI> = yield call(

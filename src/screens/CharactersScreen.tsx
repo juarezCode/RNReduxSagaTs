@@ -1,22 +1,17 @@
-import { StackNavigationProp } from '@react-navigation/stack';
 import React, { FC, useEffect } from 'react';
 import {
   View,
   Text,
   FlatList,
-  TouchableOpacity,
-  Image,
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { StackNavigationProp } from '@react-navigation/stack';
+import CharacterItem from '../components/CharacterItem';
 import { DefaultStackParamList } from '../navigation/navigation.types';
 import { getCharacters } from '../store/actions/character.actions';
-import {
-  selectCharacters,
-  selectCharactersError,
-  selectCharactersLoading,
-} from '../store/selectors/rick-and-morty.selectors';
+import { selectCharactersState } from '../store/selectors/rick-and-morty.selectors';
 
 type props = {
   navigation: StackNavigationProp<
@@ -27,9 +22,7 @@ type props = {
 
 const CharactersScreen: FC<props> = ({ navigation }) => {
   const dispatch = useDispatch();
-  const characters = useSelector(selectCharacters);
-  const loading = useSelector(selectCharactersLoading);
-  const error = useSelector(selectCharactersError);
+  const { characters, loading, error } = useSelector(selectCharactersState);
 
   useEffect(() => {
     dispatch(getCharacters());
@@ -49,19 +42,14 @@ const CharactersScreen: FC<props> = ({ navigation }) => {
           numColumns={3}
           keyExtractor={item => item.id.toString()}
           renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() =>
+            <CharacterItem
+              character={item}
+              navigateTo={() =>
                 navigation.navigate('CharacterScreenName', {
                   characterId: item.id,
                 })
               }
-              style={styles.card}>
-              <Image
-                source={{ uri: item.image }}
-                style={{ width: '100%', height: 100 }}
-              />
-              <Text style={styles.text}>{item.name}</Text>
-            </TouchableOpacity>
+            />
           )}
         />
       )}
@@ -78,18 +66,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     fontWeight: 'bold',
     fontSize: 20,
-  },
-  card: {
-    flex: 0.33,
-    alignItems: 'center',
-    borderRadius: 8,
-    margin: 5,
-    backgroundColor: 'teal',
-    color: 'white',
-  },
-  text: {
-    textAlign: 'center',
-    color: 'white',
   },
 });
 

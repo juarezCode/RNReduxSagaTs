@@ -1,23 +1,23 @@
-import { RouteProp } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
 import React, { FC, useEffect } from 'react';
 import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { DefaultStackParamList } from '../navigation/navigation.types';
 import { getCharacter } from '../store/actions/character.actions';
-import {
-  selectCharacter,
-  selectCharacterLoading,
-} from '../store/selectors/rick-and-morty.selectors';
+import { selectCharacterState } from '../store/selectors/rick-and-morty.selectors';
 
-type props = {
-  route: RouteProp<DefaultStackParamList, 'CharacterScreenName'>;
-};
+// type props = {
+//   navigation: CharacterScreenNavigationProp;
+//   route: CharacterScreenRouteProp;
+// };
 
-const CharacterScreen: FC<props> = ({ route: { params } }) => {
+// esto es lo mismo que declarar navigation y route aparte, como arriba
+type props = StackScreenProps<DefaultStackParamList, 'CharacterScreenName'>;
+
+const CharacterScreen: FC<props> = ({ navigation, route: { params } }) => {
   const dispatch = useDispatch();
 
-  const character = useSelector(selectCharacter);
-  const loading = useSelector(selectCharacterLoading);
+  const { character, loading } = useSelector(selectCharacterState);
 
   useEffect(() => {
     dispatch(getCharacter(params.characterId));

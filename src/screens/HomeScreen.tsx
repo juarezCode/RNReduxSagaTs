@@ -1,5 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import React, { FC, useEffect } from 'react';
 import {
   View,
@@ -9,26 +7,17 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { DefaultStackParamList } from '../navigation/navigation.types';
 import { getUsers } from '../store/actions/users.actions';
-import { selectTodos } from '../store/selectors/todos.selectors';
-import {
-  selectUsers,
-  selectUsersError,
-  selectUsersLoading,
-} from '../store/selectors/users.selectors';
+import { selectUsersState } from '../store/selectors/users.selectors';
 
-const HomeScreen: FC<{}> = () => {
+type props = StackScreenProps<DefaultStackParamList, 'HomeScreenName'>;
+
+const HomeScreen: FC<props> = ({ navigation }) => {
   const dispatch = useDispatch();
-  const users = useSelector(selectUsers);
-  const loading = useSelector(selectUsersLoading);
-  const todos = useSelector(selectTodos);
-  const error = useSelector(selectUsersError);
-  const navigation =
-    useNavigation<
-      StackNavigationProp<DefaultStackParamList, 'HomeScreenName'>
-    >();
+  const { todos, users, loading, error } = useSelector(selectUsersState);
 
   useEffect(() => {
     dispatch(getUsers(10));
@@ -82,6 +71,7 @@ const HomeScreen: FC<{}> = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginHorizontal: 10,
   },
   title: {
     fontSize: 30,
@@ -91,7 +81,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'teal',
     height: '5%',
     borderRadius: 10,
-    margin: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },
